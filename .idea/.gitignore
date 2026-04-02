@@ -1,0 +1,17 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# ------- THE FIXES ------- #
+# This ignores node_modules folders ANYWHERE in your project (backend & mobile)
+node_modules/
+
+# This protects your secret file (notice no slashes!)
+.env
