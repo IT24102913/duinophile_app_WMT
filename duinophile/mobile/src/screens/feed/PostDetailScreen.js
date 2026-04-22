@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   postCard:      { backgroundColor: '#1A1A2E', borderRadius: 14, padding: 16, marginBottom: 16 },
   postHeader:    { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
   author:        { color: '#6d66fd', fontWeight: '700' },
-  badge:         { fontSize: 11, color: '#fff', backgroundColor: '#2A2A4A', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
+  badge:         { fontSize: 11, color: '#ffffff', backgroundColor: '#2A2A4A', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
   postContent:   { color: '#ddd', lineHeight: 20 },
   postImage:     { width: '100%', height: 220, borderRadius: 10, marginTop: 12 },
 });

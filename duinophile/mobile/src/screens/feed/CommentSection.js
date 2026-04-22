@@ -199,7 +199,7 @@ export default function CommentSection({ postId }) {
                 <TextInput
                   style={[styles.input, styles.textarea, { height: 70 }]}
                   placeholder="Write a reply..."
-                  placeholderTextColor="#888"
+                  placeholderTextColor="#858585"
                   value={replyContent}
                   onChangeText={setReplyContent}
                   multiline

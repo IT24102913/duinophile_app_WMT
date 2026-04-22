@@ -136,7 +136,7 @@ export default function CreatePostScreen({ route, navigation }) {
       )}
 
       <TouchableOpacity style={styles.btn} onPress={handleSubmit} disabled={loading}>
-        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>{isEditing ? 'Update Post' : 'Submit Post'}</Text>}
+        {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={styles.btnText}>{isEditing ? 'Update Post' : 'Submit Post'}</Text>}
       </TouchableOpacity>
 
       <CustomAlert

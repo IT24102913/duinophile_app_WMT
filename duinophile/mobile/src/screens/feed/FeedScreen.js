@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   editPostBtn:   { flex: 1, backgroundColor: '#2A2A4A', paddingVertical: 10, borderRadius: 8, alignItems: 'center' },
   editPostBtnText:{ color: '#fff', fontWeight: 'bold', fontSize: 14 },
   deletePostBtn: { flex: 1, backgroundColor: '#e53935', paddingVertical: 10, borderRadius: 8, alignItems: 'center' },
-  deletePostBtnText:{ color: '#fff', fontWeight: 'bold', fontSize: 14 },
+  deletePostBtnText:{ color: '#ffffff', fontWeight: 'bold', fontSize: 14 },
   moderationRow: { flexDirection: 'row', gap: 10, marginTop: 12 },
   approveBtn:    { flex: 1, backgroundColor: '#1A3A1A', borderRadius: 8, padding: 10, alignItems: 'center' },
   approveBtnText:{ color: '#4CAF50', fontWeight: '700' },
