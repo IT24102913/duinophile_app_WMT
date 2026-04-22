@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Duinophile",
+    "slug": "duinophile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0F0F23"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#6C63FF"
+      }
+    },
+    "sdkVersion": "54.0.0"
+  }
+}

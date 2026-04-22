@@ -1,0 +1,22 @@
+node_modules/
+.expo/
+npm-debug.log
+yarn-error.log
+
+# Mac files
+.DS_Store
+
+# IDE files
+.idea/
+.vscode/
+
+# Environment Variables
+.env
+
+# Uploads directory
+backend/uploads/
+uploads/
+
+# Build files
+target/
+build/
