@@ -2,6 +2,7 @@ const Post = require('../models/Post');
 const path = require('path');
 const fs   = require('fs');
 
+
 // ── GET /api/posts ──
 exports.getPosts = async (req, res) => {
   try {
