@@ -7,6 +7,7 @@ import {
 import api from '../../api/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
 
+
 const LEVEL_COLORS = { BEGINNER: '#4CAF50', INTERMEDIATE: '#FF9800', ADVANCED: '#F44336' };
 
 export default function CourseListScreen({ navigation }) {

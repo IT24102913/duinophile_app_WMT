@@ -12,6 +12,7 @@ export default function CreateCourseScreen({ route, navigation }) {
   const [loading, setLoading] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ visible: false, title: '', message: '', type: 'INFO', onConfirm: null });
 
+
   const showAlert = (title, message, type = 'INFO', onConfirm = null) => {
     setAlertConfig({ visible: true, title, message, type, onConfirm });
   };

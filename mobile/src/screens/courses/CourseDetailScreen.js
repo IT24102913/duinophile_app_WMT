@@ -8,6 +8,7 @@ import api from '../../api/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
 import CustomAlert from '../../components/common/CustomAlert';
 
+
 export default function CourseDetailScreen({ route, navigation }) {
   const { courseId } = route.params;
   const { user } = useAuth();
