@@ -21,6 +21,9 @@ app.use('/api/auth',     require('./routes/authRoutes'));
 app.use('/api/courses',  require('./routes/courseRoutes'));
 app.use('/api/lessons',  require('./routes/lessonRoutes'));
 app.use('/api/posts',    require('./routes/postRoutes'));
+app.use('/api/comments', require('./routes/commentRoutes'));
+app.use('/api/feedback', require('./routes/feedbackRoutes'));
+app.use('/api/reports',  require('./routes/reportRoutes'));
 app.use('/api/users',    require('./routes/userRoutes'));
 
 // ── Health Check ──────────────────────────────────────────────────────────────
