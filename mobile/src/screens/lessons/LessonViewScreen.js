@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Linking
+  View, Text, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity, Alert, Linking, RefreshControl
 } from 'react-native';
 import api from '../../api/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
@@ -14,6 +14,7 @@ export default function LessonViewScreen({ route, navigation }) {
   const [quizSubmitted,setQuizSubmitted]= useState(false);
   const [quizResult,   setQuizResult]   = useState(null);
   const [completing,   setCompleting]   = useState(false);
+  const [refreshing,   setRefreshing]   = useState(false);
 
   useEffect(() => { fetchLesson(); }, []);
 
@@ -26,7 +27,13 @@ export default function LessonViewScreen({ route, navigation }) {
       Alert.alert('Error', err.message);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchLesson();
   };
 
   const handleCompleteLesson = async () => {
@@ -51,7 +58,7 @@ export default function LessonViewScreen({ route, navigation }) {
     const results = lesson.quiz.map((q, idx) => {
       const selected = quizAnswers[idx];
       const isCorrect = selected === q.correctOptionIndex;
-      if (isCorrect) { correct++; earned += q.points; }
+      if (isCorrect) { correct++; earned += (Number(q.points) || 0); }
       return { isCorrect, selectedIndex: selected, correctIndex: q.correctOptionIndex };
     });
 
@@ -62,6 +69,7 @@ export default function LessonViewScreen({ route, navigation }) {
       const res = await api.post(`/lessons/${lessonId}/submit-quiz`, { earnedPoints: earned });
       if (updateUser && res.data) {
         updateUser({ ...user, points: res.data.totalPoints });
+        Alert.alert('🎉 Quiz Complete!', `You earned ${earned} points!\nTotal Points: ${res.data.totalPoints}`);
       }
     } catch (err) {
       if (!err.message.includes('already submitted')) Alert.alert('Error', err.message);
@@ -109,12 +117,18 @@ export default function LessonViewScreen({ route, navigation }) {
   const isCompleted = completedLessonIds?.includes(lessonId);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={{ paddingBottom: 40 }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#6C63FF" />}
+    >
       {/* Enhanced Header */}
       <View style={styles.headerCard}>
         <Text style={styles.title}>{lesson.title}</Text>
         <View style={styles.headerDetails}>
-           <Text style={styles.statusBadge}>{isCompleted ? '✅ Completed' : '📖 In Progress'}</Text>
+           {user && user.role === 'USER' && (
+             <Text style={styles.statusBadge}>{isCompleted ? '✅ Completed' : '📖 In Progress'}</Text>
+           )}
         </View>
       </View>
 
@@ -205,7 +219,7 @@ export default function LessonViewScreen({ route, navigation }) {
             <View key={qIdx} style={styles.questionCard}>
               <View style={styles.questionMetaRow}>
                 <Text style={styles.questionNumberBadge}>Q{qIdx + 1}</Text>
-                <Text style={styles.pointsNote}>{q.points} pts</Text>
+                {user && user.role === 'USER' && <Text style={styles.pointsNote}>{q.points} pts</Text>}
               </View>
               {q.content ? <Text style={styles.questionContent}>{q.content}</Text> : null}
               <Text style={styles.questionText}>{q.question}</Text>
@@ -235,7 +249,7 @@ export default function LessonViewScreen({ route, navigation }) {
             </View>
           ))}
 
-          {!quizSubmitted && (
+          {!quizSubmitted && user && user.role === 'USER' && (
             <TouchableOpacity style={styles.submitBtn} onPress={handleSubmitQuiz}>
               <Text style={styles.submitBtnText}>Submit Quiz</Text>
             </TouchableOpacity>
