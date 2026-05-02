@@ -117,7 +117,7 @@ export default function CourseDetailScreen({ route, navigation }) {
           {/* Staff/Admin controls */}
           {user && ['ADMIN', 'STAFF'].includes(user.role) && (
             <View style={styles.adminRow}>
-              <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate('CreateCourse', { courseId, edit: true })}>
+              <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate('CreateCourse', { courseId, edit: true, course })}>
                 <Text style={styles.editBtnText}>✏️ Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.addLessonBtn} onPress={() => navigation.navigate('CreateLesson', { courseId })}>

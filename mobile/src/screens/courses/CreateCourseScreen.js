@@ -7,8 +7,13 @@ import api from '../../api/axiosConfig';
 import CustomAlert from '../../components/common/CustomAlert';
 
 export default function CreateCourseScreen({ route, navigation }) {
-  const { courseId, edit } = route.params || {};
-  const [form, setForm] = useState({ title: '', description: '', level: 'BEGINNER', minimumPointsRequired: '0' });
+  const { courseId, edit, course } = route.params || {};
+  const [form, setForm] = useState({ 
+    title: course?.title || '', 
+    description: course?.description || '', 
+    level: course?.level || 'BEGINNER', 
+    minimumPointsRequired: course?.minimumPointsRequired?.toString() || '0' 
+  });
   const [loading, setLoading] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ visible: false, title: '', message: '', type: 'INFO', onConfirm: null });
 
