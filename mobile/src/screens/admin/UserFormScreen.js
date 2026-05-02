@@ -1,10 +1,16 @@
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import api from '../../api/axiosConfig';
 import CustomAlert from '../../components/common/CustomAlert';
+import KeyboardWrapper from '../../components/common/KeyboardWrapper';
 
 export default function UserFormScreen({ route, navigation }) {
   const editingUser = route.params?.user;
   const isEditing = !!editingUser;
+
+  useEffect(() => {
+    navigation.setOptions({ title: isEditing ? 'Edit User Profile' : 'Add New User' });
+  }, [isEditing, navigation]);
 
   // Attempt to split existing full name into first and last
   const existingNames = editingUser?.fullName ? editingUser.fullName.split(' ') : [''];
@@ -89,7 +95,8 @@ export default function UserFormScreen({ route, navigation }) {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+    <KeyboardWrapper style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
       <View style={styles.content}>
         <View style={styles.row}>
           <View style={styles.halfInput}>
@@ -195,7 +202,8 @@ export default function UserFormScreen({ route, navigation }) {
           if (alertConfig.onConfirm) alertConfig.onConfirm();
         }}
       />
-    </ScrollView>
+      </ScrollView>
+    </KeyboardWrapper>
   );
 }
 

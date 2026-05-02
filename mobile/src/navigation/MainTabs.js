@@ -24,10 +24,24 @@ import { useAuth }            from '../context/AuthContext';
 const Tab   = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const darkStackOptions = {
+  headerStyle: { 
+    backgroundColor: '#0F0F23', 
+    borderBottomColor: '#2A2A4A', 
+    borderBottomWidth: 1, 
+    elevation: 0, 
+    shadowOpacity: 0 
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: { fontWeight: '800', fontSize: 18 },
+  headerBackTitleVisible: false,
+  cardStyle: { backgroundColor: '#0F0F23' }
+};
+
 // ── Courses Stack ─────────────────────────────────────────────────────────────
 function CoursesStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="CourseList"   component={CourseListScreen}   options={{ title: 'Courses' }} />
       <Stack.Screen name="CourseDetail" component={CourseDetailScreen} options={{ title: 'Course Details' }} />
       <Stack.Screen name="CreateCourse" component={CreateCourseScreen} options={{ title: 'Create Course' }} />
@@ -41,7 +55,7 @@ function CoursesStack() {
 // ── Feed Stack ────────────────────────────────────────────────────────────────
 function FeedStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="FeedHome"   component={FeedScreen}       options={{ title: 'Community Feed' }} />
       <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ title: 'New Post' }} />
       <Stack.Screen name="PostDetail" component={PostDetailScreen} options={{ title: 'Post' }} />
@@ -52,7 +66,7 @@ function FeedStack() {
 // ── Reports Stack (Student: My Reports) ───────────────────────────────────────
 function ReportsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="MyReports" component={MyReportsScreen} options={{ title: 'My Reports' }} />
     </Stack.Navigator>
   );
@@ -61,7 +75,7 @@ function ReportsStack() {
 // ── Admin Stack ───────────────────────────────────────────────────────────────
 function AdminStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="AdminDashboard"   component={AdminDashboardScreen}   options={{ title: 'Admin Dashboard' }} />
       <Stack.Screen name="UserForm"         component={UserFormScreen}         options={{ title: 'Manage User' }} />
     </Stack.Navigator>
@@ -71,7 +85,7 @@ function AdminStack() {
 // ── Report Manager Stack (Admin/Staff) ───────────────────────────────────────
 function ReportManagerStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="ReportManagement" component={ReportManagementScreen} options={{ title: 'Report Management' }} />
     </Stack.Navigator>
   );
@@ -80,7 +94,7 @@ function ReportManagerStack() {
 // ── Feedback Manager Stack (Admin/Staff) ─────────────────────────────────────
 function FeedbackManagerStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={darkStackOptions}>
       <Stack.Screen name="FeedbackManagement" component={FeedbackManagementScreen} options={{ title: 'Feedback Management' }} />
     </Stack.Navigator>
   );

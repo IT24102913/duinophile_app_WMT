@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal, TextInput, ActivityIndicator } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal, TextInput, ActivityIndicator, RefreshControl } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/axiosConfig';
 import CustomAlert from '../../components/common/CustomAlert';
@@ -7,12 +8,34 @@ import CustomAlert from '../../components/common/CustomAlert';
 export default function ProfileScreen() {
   const { user, logout, updateUser } = useAuth();
   
+  const fetchLatestUserData = useCallback(async () => {
+    try {
+      const res = await api.get('/auth/me');
+      updateUser(res.data);
+    } catch (err) {
+      console.error('Failed to refresh user data:', err);
+    }
+  }, [updateUser]);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchLatestUserData();
+    setRefreshing(false);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchLatestUserData();
+    }, [fetchLatestUserData])
+  );
+  
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [editUsername, setEditUsername] = useState(user?.username || '');
   const [editEmail, setEditEmail] = useState(user?.email || '');
   const [editFullName, setEditFullName] = useState(user?.fullName || '');
   const [editPassword, setEditPassword] = useState('');
   const [saving, setSaving] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ visible: false, title: '', message: '', type: 'INFO', onConfirm: null });
 
   const showAlert = (title, message, type = 'INFO', onConfirm = null) => {
@@ -55,7 +78,13 @@ export default function ProfileScreen() {
 
   return (
     <>
-      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView 
+        style={styles.container} 
+        contentContainerStyle={{ paddingBottom: 40 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#6C63FF" />
+        }
+      >
       {/* Avatar */}
       <View style={styles.avatarCircle}>
         <Text style={styles.avatarText}>{user.username?.charAt(0).toUpperCase()}</Text>
@@ -70,12 +99,14 @@ export default function ProfileScreen() {
       </View>
 
       {/* Stats */}
-      <View style={styles.statsRow}>
-        <View style={styles.statBox}>
-          <Text style={styles.statValue}>🏆 {user.points}</Text>
-          <Text style={styles.statLabel}>Points</Text>
+      {user.role === 'USER' && (
+        <View style={styles.statsRow}>
+          <View style={styles.statBox}>
+            <Text style={styles.statValue}>🏆 {user.points}</Text>
+            <Text style={styles.statLabel}>Points</Text>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* Info */}
       <View style={styles.infoCard}>

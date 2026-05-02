@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ScrollView, ActivityIndicator, Alert,
+  ScrollView, ActivityIndicator, Alert
 } from 'react-native';
 import api from '../../api/axiosConfig';
 import CustomAlert from '../../components/common/CustomAlert';
+import KeyboardWrapper from '../../components/common/KeyboardWrapper';
 
 export default function CreateCourseScreen({ route, navigation }) {
   const { courseId, edit, course } = route.params || {};
@@ -22,6 +23,10 @@ export default function CreateCourseScreen({ route, navigation }) {
     setAlertConfig({ visible: true, title, message, type, onConfirm });
   };
   const set = (k) => (v) => setForm((p) => ({ ...p, [k]: v }));
+
+  useEffect(() => {
+    navigation.setOptions({ title: edit ? 'Edit Course' : 'Create Course' });
+  }, [edit, navigation]);
 
   const handleSave = async () => {
     if (!form.title.trim() || !form.description.trim()) {
@@ -47,7 +52,8 @@ export default function CreateCourseScreen({ route, navigation }) {
   const LEVELS = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+    <KeyboardWrapper style={{ backgroundColor: '#0F0F23' }}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <Text style={styles.heading}>{edit ? '✏️ Edit Course' : '📚 Create Course'}</Text>
 
       <Text style={styles.label}>Title *</Text>
@@ -86,7 +92,8 @@ export default function CreateCourseScreen({ route, navigation }) {
           if (alertConfig.onConfirm) alertConfig.onConfirm();
         }}
       />
-    </ScrollView>
+      </ScrollView>
+    </KeyboardWrapper>
   );
 }
 

@@ -12,7 +12,8 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#6C63FF"
-      }
+      },
+      "softwareKeyboardLayoutMode": "pan"
     },
     "sdkVersion": "54.0.0"
   }

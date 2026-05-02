@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet,
-  ActivityIndicator, Alert,
+  ActivityIndicator, Alert, RefreshControl,
 } from 'react-native';
 import api from '../../api/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
@@ -15,6 +15,7 @@ export default function CourseDetailScreen({ route, navigation }) {
   const [data,    setData]    = useState(null);
   const [loading, setLoading] = useState(true);
   const [enrolling, setEnrolling] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [alertConfig, setAlertConfig] = useState({ visible: false, title: '', message: '', type: 'INFO', onConfirm: null });
 
   const showAlert = (title, message, type = 'INFO', onConfirm = null) => {
@@ -29,8 +30,14 @@ export default function CourseDetailScreen({ route, navigation }) {
       showAlert('Error', err.message, 'ERROR');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, [courseId]);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchDetails();
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -84,7 +91,11 @@ export default function CourseDetailScreen({ route, navigation }) {
           <ActivityIndicator size="large" color="#6C63FF" />
         </View>
       ) : (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+        <ScrollView 
+          style={styles.container} 
+          contentContainerStyle={{ paddingBottom: 40 }}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#6C63FF" />}
+        >
           {/* Course Header */}
           <View style={styles.header}>
             <Text style={styles.title}>{course.title}</Text>
